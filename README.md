@@ -53,7 +53,6 @@ Start the Streamlit dashboard:
 
 bash
 -streamlit run app/dashboard.py
--Access the dashboard at http://localhost:8501
 
 Configure your analysis:
 
