@@ -1,0 +1,12 @@
+asyncpraw
+langgraph
+langchain-core
+transformers
+torch
+pandas
+numpy
+praw
+plotly
+python-dotenv
+streamlit
+

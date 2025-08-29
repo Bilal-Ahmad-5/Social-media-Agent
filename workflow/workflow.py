@@ -6,7 +6,7 @@ import asyncio
 from typing import Dict, Any, List
 from langgraph.graph import StateGraph, END
 from langchain_core.runnables import RunnableLambda
-from agents import (
+from agents.agents import (
     RedditScraperAgent, 
     SentimentAnalyzerAgent, 
     ThemeTaggerAgent, 

@@ -11,8 +11,8 @@ import asyncio
 from datetime import datetime
 import json
 
-from workflow import SentimentAnalysisWorkflow
-from state import AgentState
+from workflow.workflow import SentimentAnalysisWorkflow
+from workflow.state import AgentState
 
 # Page configuration
 st.set_page_config(
