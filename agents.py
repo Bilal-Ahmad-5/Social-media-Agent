@@ -9,7 +9,7 @@ import warnings
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 from collections import Counter
-import praw
+import asyncpraw
 import os
 from state import AgentState
 
@@ -51,8 +51,8 @@ class RedditScraperAgent:
                 state.status = "error"
                 return state
             
-            # Initialize Reddit API client
-            reddit = praw.Reddit(
+            # Initialize AsyncPRAW Reddit API client
+            reddit = asyncpraw.Reddit(
                 client_id=self.client_id,
                 client_secret=self.client_secret,
                 user_agent=self.user_agent
@@ -63,8 +63,9 @@ class RedditScraperAgent:
             
             state.progress = 0.3
             
-            # Scrape posts from the subreddit
-            for i, post in enumerate(subreddit.hot(limit=state.post_limit)):
+            # Scrape posts from the subreddit using async iterator
+            i = 0
+            async for post in subreddit.hot(limit=state.post_limit):
                 if i >= state.post_limit:
                     break
                     
@@ -85,6 +86,9 @@ class RedditScraperAgent:
                 
                 state.progress = 0.3 + (i / state.post_limit) * 0.4
                 await asyncio.sleep(0.1)  # Rate limiting
+                i += 1
+            
+            await reddit.close()  # Close the async session
             
             state.raw_posts = posts_data
             state.processed_posts = posts_data

@@ -16,11 +16,145 @@ from state import AgentState
 
 # Page configuration
 st.set_page_config(
-    page_title="Social Media Sentiment Analysis",
-    page_icon="📊",
+    page_title="AI Social Sentiment Labs",
+    page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# Custom CSS for beautiful UI
+st.markdown("""
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    .main {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+    }
+    
+    .stApp {
+        background: transparent;
+    }
+    
+    .main .block-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        margin: 2rem 1rem;
+        padding: 2rem;
+        backdrop-filter: blur(10px);
+    }
+    
+    .sidebar .sidebar-content {
+        background: linear-gradient(135deg, #2D3748 0%, #4A5568 100%);
+        border-radius: 15px;
+        margin: 1rem 0.5rem;
+    }
+    
+    h1 {
+        color: #2D3748;
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    h2, h3 {
+        color: #4A5568;
+        font-weight: 600;
+    }
+    
+    .metric-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 1.5rem;
+        border-radius: 15px;
+        color: white;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        margin: 0.5rem 0;
+    }
+    
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        background: rgba(102, 126, 234, 0.1);
+        border-radius: 10px;
+        padding: 0.5rem;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        border: none;
+        background: transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    
+    .stButton > button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 0.5rem 2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+    }
+    
+    .agent-card {
+        background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%);
+        padding: 1.5rem;
+        border-radius: 15px;
+        border-left: 5px solid #667eea;
+        margin: 1rem 0;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    
+    .progress-container {
+        background: rgba(102, 126, 234, 0.1);
+        border-radius: 10px;
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .sentiment-positive {
+        color: #10B981;
+        font-weight: 600;
+    }
+    
+    .sentiment-negative {
+        color: #EF4444;
+        font-weight: 600;
+    }
+    
+    .sentiment-neutral {
+        color: #6B7280;
+        font-weight: 600;
+    }
+    
+    .welcome-section {
+        background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 1rem 0;
+        border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # Initialize session state
 if 'workflow' not in st.session_state:
@@ -33,12 +167,22 @@ if 'analysis_running' not in st.session_state:
 def main():
     """Main Streamlit application"""
     
-    st.title("🤖 Multi-Agent Social Media Sentiment Analysis")
+    st.markdown("""
+    <h1>🧠 AI Social Sentiment Labs</h1>
+    <p style="text-align: center; font-size: 1.2rem; color: #6B7280; margin-bottom: 2rem;">
+        Advanced Multi-Agent Intelligence for Social Media Analysis
+    </p>
+    """, unsafe_allow_html=True)
     st.markdown("---")
     
     # Sidebar for configuration
     with st.sidebar:
-        st.header("⚙️ Configuration")
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 1rem; border-radius: 10px; margin-bottom: 1rem; text-align: center;">
+            <h2 style="color: white; margin: 0;">⚙️ AI Control Center</h2>
+        </div>
+        """, unsafe_allow_html=True)
         
         # Input parameters
         subreddit = st.text_input(
@@ -149,7 +293,13 @@ def show_analysis_results():
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("Total Posts", len(state.theme_results) if state.theme_results else 0)
+        total_posts = len(state.theme_results) if state.theme_results else 0
+        st.markdown(f"""
+        <div class="metric-container">
+            <h3 style="margin: 0; font-size: 2rem;">{total_posts}</h3>
+            <p style="margin: 0; opacity: 0.9;">Total Posts Analyzed</p>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col2:
         if state.sentiment_results:
@@ -158,9 +308,20 @@ def show_analysis_results():
                 sentiment = item['sentiment']
                 sentiment_counts[sentiment] = sentiment_counts.get(sentiment, 0) + 1
             dominant_sentiment = max(sentiment_counts, key=sentiment_counts.get)
-            st.metric("Dominant Sentiment", dominant_sentiment)
+            sentiment_color = {"POSITIVE": "🟢", "NEGATIVE": "🔴", "NEUTRAL": "🟡"}.get(dominant_sentiment, "⚪")
+            st.markdown(f"""
+            <div class="metric-container">
+                <h3 style="margin: 0; font-size: 1.5rem;">{sentiment_color} {dominant_sentiment}</h3>
+                <p style="margin: 0; opacity: 0.9;">Dominant Sentiment</p>
+            </div>
+            """, unsafe_allow_html=True)
         else:
-            st.metric("Dominant Sentiment", "N/A")
+            st.markdown("""
+            <div class="metric-container">
+                <h3 style="margin: 0; font-size: 1.5rem;">⚪ N/A</h3>
+                <p style="margin: 0; opacity: 0.9;">Dominant Sentiment</p>
+            </div>
+            """, unsafe_allow_html=True)
     
     with col3:
         if state.theme_results:
@@ -169,13 +330,28 @@ def show_analysis_results():
                 theme = item.get('primary_theme', 'unknown')
                 theme_counts[theme] = theme_counts.get(theme, 0) + 1
             dominant_theme = max(theme_counts, key=theme_counts.get)
-            st.metric("Primary Theme", dominant_theme.replace('_', ' ').title())
+            st.markdown(f"""
+            <div class="metric-container">
+                <h3 style="margin: 0; font-size: 1.2rem;">🏷️ {dominant_theme.replace('_', ' ').title()}</h3>
+                <p style="margin: 0; opacity: 0.9;">Primary Theme</p>
+            </div>
+            """, unsafe_allow_html=True)
         else:
-            st.metric("Primary Theme", "N/A")
+            st.markdown("""
+            <div class="metric-container">
+                <h3 style="margin: 0; font-size: 1.2rem;">🏷️ N/A</h3>
+                <p style="margin: 0; opacity: 0.9;">Primary Theme</p>
+            </div>
+            """, unsafe_allow_html=True)
     
     with col4:
         subreddit = getattr(state, 'subreddit', 'unknown')
-        st.metric("Subreddit", f"r/{subreddit}")
+        st.markdown(f"""
+        <div class="metric-container">
+            <h3 style="margin: 0; font-size: 1.5rem;">🏠 r/{subreddit}</h3>
+            <p style="margin: 0; opacity: 0.9;">Subreddit</p>
+        </div>
+        """, unsafe_allow_html=True)
     
     st.markdown("---")
     
@@ -541,37 +717,72 @@ def show_error_state():
         st.rerun()
 
 def show_welcome_screen():
-    """Show welcome screen"""
+    """Show welcome screen with enhanced UI"""
     
     st.markdown("""
-    ## Welcome to Multi-Agent Social Media Sentiment Analysis! 🎉
+    <div class="welcome-section">
+        <h2 style="text-align: center; color: #667eea; margin-bottom: 2rem;">
+            🎉 Welcome to AI Social Sentiment Labs!
+        </h2>
+        
+        <p style="font-size: 1.1rem; color: #4A5568; text-align: center; margin-bottom: 2rem;">
+            Harness the power of advanced AI agents to unlock insights from social media conversations.
+            Our multi-agent system combines cutting-edge transformer models with intelligent workflow orchestration.
+        </p>
+    </div>
     
-    This application uses advanced AI agents to analyze sentiment and themes in Reddit posts.
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+        <div class="agent-card">
+            <h3>🕷️ Reddit Scraper Agent</h3>
+            <p>Advanced data harvesting with async Reddit API integration. Efficiently collects posts with real-time rate limiting and error handling.</p>
+        </div>
+        
+        <div class="agent-card">
+            <h3>🧠 Sentiment Analyzer Agent</h3>
+            <p>Powered by transformer models (RoBERTa + DistilRoBERTa) for production-grade sentiment analysis with emotion detection capabilities.</p>
+        </div>
+        
+        <div class="agent-card">
+            <h3>🏷️ Theme Tagger Agent</h3>
+            <p>Zero-shot classification using BART-large-MNLI to identify discussion topics and themes with confidence scoring.</p>
+        </div>
+        
+        <div class="agent-card">
+            <h3>📊 Report Generator Agent</h3>
+            <p>Synthesizes findings into comprehensive reports with insights, recommendations, and interactive visualizations.</p>
+        </div>
+    </div>
     
-    ### 🤖 Our AI Agents:
-    - **Reddit Scraper**: Fetches posts from specified subreddits
-    - **Sentiment Analyzer**: Analyzes emotional tone using transformer models
-    - **Theme Tagger**: Identifies discussion topics and themes
-    - **Report Generator**: Creates comprehensive analysis reports
+    <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); 
+                padding: 1.5rem; border-radius: 15px; color: white; text-align: center; margin: 2rem 0;">
+        <h3 style="margin: 0 0 1rem 0;">🚀 Ready to Analyze?</h3>
+        <p style="margin: 0; font-size: 1.1rem;">
+            Configure your settings in the sidebar and click "Start Analysis" to see our AI agents work together!
+        </p>
+    </div>
     
-    ### 🚀 How to get started:
-    1. Configure your Reddit API credentials (see sidebar)
-    2. Enter a subreddit name in the sidebar
-    3. Choose how many posts to analyze
-    4. Click "Start Analysis" and watch the magic happen!
-    
-    ### 🔧 Features:
-    - Real-time Reddit data scraping
-    - Advanced transformer-based sentiment analysis
-    - Intelligent theme extraction
-    - Interactive visualizations
-    - Comprehensive reporting
-    - Export capabilities
-    
-    ---
-    
-    **Ready to analyze some social media sentiment?** Configure your settings in the sidebar and click "Start Analysis"!
-    """)
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">
+        <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 10px; text-align: center;">
+            <h4 style="color: #059669; margin: 0.5rem 0;">⚡ Real-time Processing</h4>
+            <p style="color: #374151; margin: 0;">Live Reddit data with async processing</p>
+        </div>
+        
+        <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 10px; text-align: center;">
+            <h4 style="color: #667eea; margin: 0.5rem 0;">🤖 AI-Powered Analysis</h4>
+            <p style="color: #374151; margin: 0;">Advanced transformer models</p>
+        </div>
+        
+        <div style="background: rgba(139, 92, 246, 0.1); padding: 1rem; border-radius: 10px; text-align: center;">
+            <h4 style="color: #8B5CF6; margin: 0.5rem 0;">📈 Interactive Visualizations</h4>
+            <p style="color: #374151; margin: 0;">Beautiful charts and reports</p>
+        </div>
+        
+        <div style="background: rgba(236, 72, 153, 0.1); padding: 1rem; border-radius: 10px; text-align: center;">
+            <h4 style="color: #EC4899; margin: 0.5rem 0;">💾 Export Capabilities</h4>
+            <p style="color: #374151; margin: 0;">Download comprehensive reports</p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()

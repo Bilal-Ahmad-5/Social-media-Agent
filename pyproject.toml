@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.11"
 dependencies = [
+    "asyncpraw>=7.8.1",
     "langchain-core>=0.3.75",
     "langgraph>=0.6.6",
     "pandas>=2.3.2",
@@ -11,6 +12,7 @@ dependencies = [
     "praw>=7.8.1",
     "python-dotenv>=1.1.1",
     "streamlit>=1.49.0",
+    "numpy>=1.21.0",
 ]
 
 [[tool.uv.index]]
@@ -19,6 +21,8 @@ name = "pytorch-cpu"
 url = "https://download.pytorch.org/whl/cpu"
 
 [tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
+transformers = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
 AA-module = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
 ABlooper = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
 AnalysisG = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
